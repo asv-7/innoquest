@@ -1,0 +1,9 @@
+{
+  "name": "code-debugger-webapp",
+  "version": "1.0.0",
+  "description": "Simple web app with bug detectors and a tiny ptrace debugger",
+  "type": "module",
+  "scripts": {
+    "test:analyzers": "node analyzers/test.js"
+  }
+}

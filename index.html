@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Debugger 🐛 - Debug Your Code</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <h1>CODEDEBUGGER</h1>
+                <p class="subtitle">Paste your code and let us find the bugs!</p>
+            </div>
+            <div class="header-right">
+                <button id="topSigninBtn" class="btn btn-small">Sign In</button>
+                <button id="topSignupBtn" class="btn btn-small btn-primary">Sign Up</button>
+            </div>
+        </header>
+
+        <!-- Login Section for free Assistant access (hidden until header buttons used) -->
+        <section class="login-section" id="loginSection" style="display:none;">
+            <h2 id="loginHeader">Login for Free Assistant</h2>
+            <input type="text" id="loginUsername" placeholder="Username" />
+            <input type="password" id="loginPassword" placeholder="Password" />
+            <input type="email" id="loginEmail" placeholder="Email (for sign up)" style="display:none;" />
+            <button id="loginBtn">Log In</button>
+        </section>
+
+        <!-- Chat Section (hidden until login) -->
+        <section class="chat-section" id="chatSection" style="display:none;">
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="chat-input">
+                <textarea id="chatInput" rows="2" placeholder="Ask the free assistant..."></textarea>
+                <button id="chatSendBtn">Send</button>
+            </div>
+        </section>
+
+        <main>
+            <!-- language selection -->
+            <section class="language-section">
+                <div class="section-title">Select Programming Language</div>
+                <div class="language-checkboxes">
+                    <label class="checkbox-label">
+                        <input type="radio" id="lang-js" name="language" value="javascript" checked>
+                        <span class="checkbox-custom"></span>
+                        <span class="lang-name">JavaScript</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="radio" id="lang-c" name="language" value="c">
+                        <span class="checkbox-custom"></span>
+                        <span class="lang-name">C Language</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="radio" id="lang-java" name="language" value="java">
+                        <span class="checkbox-custom"></span>
+                        <span class="lang-name">Java</span>
+                    </label>
+                </div>
+                <p class="language-note">Selected Languages: <span id="selectedLanguages">JavaScript</span></p>
+            </section>
+
+            <!-- Code Input Section -->
+            <section class="input-section">
+                <div class="section-title">Step 1: Paste Your Code</div>
+                <textarea id="codeInput" placeholder="Paste your code here... (Select language above for better analysis)" rows="12"></textarea>
+                <div class="button-group">
+                    <button id="analyzeBtn" class="btn btn-primary">Analyze Code</button>
+                    <button id="clearBtn" class="btn btn-secondary">Clear</button>
+                </div>
+            </section>
+
+            <!-- Samples Section -->
+            <section class="samples-section">
+                <div class="sample-card">
+                    <h3>Sample 1: Missing Semicolon</h3>
+                    <p class="difficulty">Difficulty: Beginner | Language: JS</p>
+                    <pre><code>function sumNumbers(n) {
+    let sum = 0;
+    for (let i = 1; i &lt;= n; i++) {
+        sum = sum + i;
+    }
+    return sum  // Bug here!
+}</code></pre>
+                    <button class="btn btn-small" onclick="loadSample(1)">Load & Debug</button>
+                </div>
+                <div class="sample-card">
+                    <h3>Sample 2: Variable Scope Bug</h3>
+                    <p class="difficulty">Difficulty: Intermediate</p>
+                    <pre><code>function checkAge(age) {
+    if (age >= 18) {
+        let status = "Adult";
+    }
+    return status;  // Bug here!
+}</code></pre>
+                    <button class="btn btn-small" onclick="loadSample(2)">Load & Debug</button>
+                </div>
+                <div class="sample-card">
+                    <h3>Sample 3: Logic Error</h3>
+                    <p class="difficulty">Difficulty: Intermediate</p>
+                    <pre><code>function findMax(arr) {
+    let max = 0;
+    for (let i = 0; i &lt; arr.length; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+    return max;  // Bug here!
+}</code></pre>
+                    <button class="btn btn-small" onclick="loadSample(3)">Load & Debug</button>
+                </div>
+                <div class="sample-card">
+                    <h3>Sample 4: Type Coercion Bug</h3>
+                    <p class="difficulty">Difficulty: Advanced | Language: JS</p>
+                    <pre><code>function compare(a, b) {
+    if (a == b) {  // Bug here!
+        return "Equal";
+    }
+    return "Not Equal";
+}
+console.log(compare(5, "5"));</code></pre>
+                    <button class="btn btn-small" onclick="loadSample(4)">Load & Debug</button>
+                </div>
+                <div class="sample-card">
+                    <h3>Sample 5: Array Out of Bounds</h3>
+                    <p class="difficulty">Difficulty: Intermediate | Language: C</p>
+                    <pre><code>#include &lt;stdio.h&gt;
+int main() {
+    int arr[5] = {10,20,30};
+    for (int i = 0; i &lt;= 5; i++)
+        printf("%d ", arr[i]);
+    return 0;
+}</code></pre>
+                    <button class="btn btn-small" onclick="loadSample(5)">Load & Debug</button>
+                </div>
+                <div class="sample-card">
+                    <h3>Sample 6: Uninitialized Pointer</h3>
+                    <p class="difficulty">Difficulty: Advanced | Language: C</p>
+                    <pre><code>#include &lt;stdio.h&gt;
+int main() {
+    int *ptr;
+    *ptr = 10;  // Danger!
+    printf("%d", *ptr);
+    return 0;
+}</code></pre>
+                    <button class="btn btn-small" onclick="loadSample(6)">Load & Debug</button>
+                </div>
+                <div class="sample-card">
+                    <h3>Sample 7: Missing Semicolon</h3>
+                    <p class="difficulty">Difficulty: Beginner | Language: C</p>
+                    <pre><code>#include &lt;stdio.h&gt;
+int main() {
+    int sum = 0  // Bug!
+    for (int i = 1; i &lt;= 5; i++)
+        sum = sum + i;
+    return 0;
+}</code></pre>
+                    <button class="btn btn-small" onclick="loadSample(7)">Load & Debug</button>
+                </div>
+                <div class="sample-card">
+                    <h3>Sample 8: Memory Leak</h3>
+                    <p class="difficulty">Difficulty: Advanced | Language: C</p>
+                    <pre><code>#include &lt;stdlib.h&gt;
+int main() {
+    int *arr = malloc(100 *
+        sizeof(int));
+    // ... use array ...
+    // Missing free(arr)!
+    return 0;
+}</code></pre>
+                    <button class="btn btn-small" onclick="loadSample(8)">Load & Debug</button>
+                </div>
+            </section>
+
+            <div class="results-container">
+                <!-- Bugs Found Section -->
+                <section class="results-section bugs-section" id="bugsSection" style="display: none;">
+                    <div class="section-title">opps found 🐛</div>
+                    <div id="bugsList" class="bugs-list"></div>
+                </section>
+                <!-- Explanations Section -->
+                <section class="results-section explanations-section" id="explanationsSection" style="display: none;">
+                    <div class="section-title">📝 Explanations in Simple English</div>
+                    <div id="explanationsList" class="explanations-list"></div>
+                </section>
+                <!-- No Bugs Section -->
+                <section class="results-section success-section" id="successSection" style="display: none;">
+                    <div class="section-title">✅ No Bugs Detected!</div>
+                    <p>Your code looks clean! Keep up the good work.</p>
+                </section>
+                <!-- Execution Results Section -->
+                <section class="results-section execution-section" id="executionSection" style="display: none;">
+                    <div class="section-title">⚙️ Execution Results</div>
+                    <pre id="execOutput" class="exec-output"></pre>
+                </section>
+                <!-- Debugging Process Section -->
+                <section class="results-section process-section" id="processSection" style="display: none;">
+                    <div class="section-title">🛠️ Debugging Process</div>
+                    <ol id="processList"></ol>
+                </section>
+            </div>
+
+            <section class="tips-section">
+                <div class="section-title">💡 Debugging Tips</div>
+                <ul class="tips-list">
+                    <li><strong>Read Error Messages:</strong> Error messages often tell you exactly what's wrong and where</li>
+                    <li><strong>Check Variable Names:</strong> Typos in variable names are very common bugs</li>
+                    <li><strong>Test with Examples:</strong> Run your code with different inputs to find edge cases</li>
+                    <li><strong>Use Loops Carefully:</strong> Off-by-one errors are common in loops (i &lt; vs i &lt;=)</li>
+                    <li><strong>Watch Data Types:</strong> Make sure you're comparing the right data types (5 vs "5")</li>
+                    <li><strong>Return Values:</strong> Make sure functions return what they're supposed to return</li>
+                </ul>
+            </section>
+
+        </main>
+
+        <footer>
+            <p>Code Debugger v1.0 | Learn debugging with real examples</p>
+        </footer>
+    </div>
+
+    <script src="script.legacy.js"></script>
+    <script type="module" src="main.js"></script>
+</body>
+</html>
